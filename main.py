@@ -38,4 +38,5 @@ while running:
     screen.blit(pri_target, (target_x, target_y))
     pygame.display.update()
 
+
 pygame.quit()
