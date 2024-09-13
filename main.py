@@ -24,8 +24,6 @@ target_height = 128
 
 
 
-
-
 target_x = randint(0, SCREEN_WIDTH - target_width)
 target_y = randint(0, SCREEN_HEIGHT - target_height)
 
