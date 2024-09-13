@@ -4,8 +4,8 @@ caption = 'Турбо-мяч'
 screen_width = 800
 screen_height = 500
 
-target_width = 100
-target_height = 100
+target_width = 120
+target_height = 120
 
 icon_image = pygame.image.load('images/fast_icon.png')
 ground_image = pygame.image.load('images/background.png')
@@ -46,32 +46,62 @@ while running:
     target_x += target_speed_x
     target_y += target_speed_y
 
+    old_speed_x = target_speed_x
+    old_speed_y = target_speed_y
+
+    # Проверка столкновения с краями окна и изменение направления
+    if target_x <= 0 or target_x + target_width >= screen_width:
+        target_speed_x = -target_speed_x
+    if target_y <= 0 or target_y + target_height >= screen_height:
+        target_speed_y = -target_speed_y
+
+
+    if target_speed_x != old_speed_x or target_speed_y != old_speed_y:
+        switch = True
+
+
+
+
+
+
+
+
+
+
     # Обновление угла вращения
     angle = (angle + rotation_speed) % 360
 
     # Проверка столкновения с краями окна и изменение направления
     if target_x <= 0 or target_x + target_width >= screen_width:
-         target_speed_x = -target_speed_x
+        target_speed_x = -target_speed_x
     if target_y <= 0 or target_y + target_height >= screen_height:
-         target_speed_y = -target_speed_y
+        target_speed_y = -target_speed_y
+
+    # Отрисовка мяча
+    if target_speed_x > 0 and target_speed_y > 0:
+        screen.blit(pri_target, (target_x, target_y))
+    if target_speed_x < 0 and target_speed_y < 0:
+        rotated_sec = pygame.transform.rotate(sec_target, angle)
+        new_rect = rotated_sec.get_rect(center=(target_x + target_width // 2, target_y + target_height // 2))
+        screen.blit(rotated_sec, new_rect.topleft)
 
     if target_speed_x > 0 and target_speed_y > 0:
         screen.blit(pri_target, (target_x, target_y))
 
-    elif target_speed_x > 0 and target_speed_y < 0:
+    elif target_speed_x > 0 or target_speed_y < 0:
         screen.blit(pri_target, (target_x, target_y))
-
-    elif target_speed_x < 0 and target_speed_y < 0:
-        rotated_sec = pygame.transform.rotate(sec_target, angle)
-        new_rect = rotated_sec.get_rect(center=(target_x + target_width // 2, target_y + target_height // 2))
-        screen.blit(rotated_sec, new_rect.topleft)
 
     elif target_speed_x < 0 and target_speed_y > 0:
         rotated_sec = pygame.transform.rotate(sec_target, angle)
         new_rect = rotated_sec.get_rect(center=(target_x + target_width // 2, target_y + target_height // 2))
         screen.blit(rotated_sec, new_rect.topleft)
 
-    # Обновление части
+    else:
+        rotated_sec = pygame.transform.rotate(sec_target, angle)
+        new_rect = rotated_sec.get_rect(center=(target_x + target_width // 2, target_y + target_height // 2))
+        screen.blit(rotated_sec, new_rect.topleft)
+
+    # Обновление части экрана
     rect = pygame.Rect(target_x - 10, target_y - 10, target_width + 20, target_height + 20)
     pygame.display.update(rect)
 
