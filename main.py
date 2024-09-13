@@ -40,8 +40,7 @@ while running:
                 target_x = randint(0, screen_width - target_width)
                 target_y = randint(0, screen_height - target_height)
 
-    screen.blit(target_image, (target_x, target_y))
-
+    screen.blit(pri_target, (target_x, target_y))
     pygame.display.update()
 
 pygame.quit()
