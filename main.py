@@ -1,12 +1,12 @@
 import pygame
 from random import randint
 
-
-
 CAPTION = 'Турбо-мяч'
 ICON = pygame.image.load('images/fast-icon.png')
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
+
+pygame.init()
 
 pygame.display.set_caption(CAPTION)
 pygame.display.set_icon(ICON)
@@ -16,22 +16,19 @@ backround_image = pygame.image.load('images/background.png')
 target_width = 128
 target_height = 128
 
-pygame.init()
-
-pygame.display.set_caption("Shoot fasball")
-screen = pygame.display.set_mode((800, 600))
-
 running = True
 while running:
+
+    screen.blit(backround_image, (0, 0))
+    pygame.display.flip()
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-target_x = randint(0, SCREEN_WIDTH - target_width)
-target_y = randint(0, SCREEN_HEIGHT - target_height)
+#target_x = randint(0, SCREEN_WIDTH - target_width)
+#target_y = randint(0, SCREEN_HEIGHT - target_height)
 
-screen.blit(backround_image, (0, 0))
 
-pygame.display.flip()
 
-pygame,quit()
+pygame.quit()
