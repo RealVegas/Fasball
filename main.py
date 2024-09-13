@@ -23,8 +23,10 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 
 target_x = (screen_width - target_width) // 2
 target_y = (screen_height - target_height) // 2
+
 target_speed_x = 5
 target_speed_y = 5
+
 angle = 0
 rotation_speed = 5
 
