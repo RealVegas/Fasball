@@ -6,8 +6,9 @@ screen_width = 800
 screen_height = 500
 
 icon_image = pygame.image.load('images/fast_icon.png')
-target_image = pygame.image.load('images/primary_ball.png')
 background_image = pygame.image.load('images/background.png')
+pri_target = pygame.image.load('images/primary_ball.png')
+sec_target = pygame.image.load('images/secondary_ball.png')
 
 pygame.init()
 
