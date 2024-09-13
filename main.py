@@ -2,6 +2,7 @@ import pygame
 from random import randint
 
 
+
 CAPTION = 'Турбо-мяч'
 ICON = pygame.image.load('images/fast-icon.png')
 SCREEN_WIDTH = 800
