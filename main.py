@@ -18,8 +18,12 @@ sec_target = pygame.transform.scale(sec_target, (target_width, target_height))
 
 pygame.init()
 
-pygame.display.set_caption("Shoot fasball")
-screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption(caption)
+pygame.display.set_icon(icon_image)
+screen = pygame.display.set_mode((screen_width, screen_height))
+
+target_x = randint(0, screen_width - target_width)
+target_y = randint(0, screen_height - target_height)
 
 running = True
 while running:
@@ -36,7 +40,7 @@ while running:
                 target_y = randint(0, screen_height - target_height)
 
     screen.blit(pri_target, (target_x, target_y))
-    pygame.display.update()
+    pygame.display.flip()
 
 
 pygame.quit()
