@@ -1,5 +1,4 @@
 import pygame
-from random import randint
 
 caption = 'Турбо-мяч'
 screen_width = 800
@@ -26,6 +25,11 @@ target_x = (screen_width - target_width) // 2
 target_y = (screen_height - target_height) // 2
 target_speed_x = 5
 target_speed_y = 5
+angle = 0
+rotation_speed = 5
+
+screen.blit(ground_image, (0, 0))
+pygame.display.flip()
 
 running = True
 while running:
@@ -35,27 +39,47 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        # if event.type == pygame.MOUSEBUTTONDOWN:
-        #     mouse_x, mouse_y = pygame.mouse.get_pos()
-        #     if target_x < mouse_x < target_x + target_width and target_y < mouse_y < target_y + target_height:
-        #         target_x = randint(0, screen_width - target_width)
-        #         target_y = randint(0, screen_height - target_height)
 
+    # Изменение позиции мяча
     target_x += target_speed_x
     target_y += target_speed_y
 
+    # Обновление угла вращения
+    angle = (angle + rotation_speed) % 360
+
     # Проверка столкновения с краями окна и изменение направления
-    if target_x - target_width <= 0 or target_x + target_width >= screen_width:
-        target_speed_x = -target_speed_x
-    if target_y - target_height <= 0 or target_y + target_height >= screen_height:
-        target_speed_y = -target_speed_y
+    if target_x <= 0 or target_x + target_width >= screen_width:
+         target_speed_x = -target_speed_x
+    if target_y <= 0 or target_y + target_height >= screen_height:
+         target_speed_y = -target_speed_y
 
-    screen.blit(pri_target, (target_x, target_y))
+    if target_speed_x > 0 and target_speed_y > 0:
+        screen.blit(pri_target, (target_x, target_y))
 
-    # Обновление экрана
-    pygame.display.flip()
+    elif target_speed_x > 0 and target_speed_y < 0:
+        screen.blit(pri_target, (target_x, target_y))
+
+    elif target_speed_x < 0 and target_speed_y < 0:
+        rotated_sec = pygame.transform.rotate(sec_target, angle)
+        new_rect = rotated_sec.get_rect(center=(target_x + target_width // 2, target_y + target_height // 2))
+        screen.blit(rotated_sec, new_rect.topleft)
+
+    elif target_speed_x < 0 and target_speed_y > 0:
+        rotated_sec = pygame.transform.rotate(sec_target, angle)
+        new_rect = rotated_sec.get_rect(center=(target_x + target_width // 2, target_y + target_height // 2))
+        screen.blit(rotated_sec, new_rect.topleft)
+
+    # Обновление части
+    rect = pygame.Rect(target_x - 10, target_y - 10, target_width + 20, target_height + 20)
+    pygame.display.update(rect)
 
     # Ограничение FPS
     pygame.time.Clock().tick(60)
 
 pygame.quit()
+
+# if event.type == pygame.MOUSEBUTTONDOWN:
+#     mouse_x, mouse_y = pygame.mouse.get_pos()
+#     if target_x < mouse_x < target_x + target_width and target_y < mouse_y < target_y + target_height:
+#         target_x = randint(0, screen_width - target_width)
+#         target_y = randint(0, screen_height - target_height)
