@@ -1,4 +1,4 @@
-
+import pygame
 
 
 CAPTION = "Shoot fastball"
