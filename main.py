@@ -2,8 +2,6 @@ import pygame
 
 pygame.init()
 
-pygame.display.set_caption("Shoot fasball")
-screen = pygame.display.set_mode((800, 600))
 
 running = True
 while running:
