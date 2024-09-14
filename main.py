@@ -5,7 +5,7 @@ pygame.init()
 pygame.font.init()
 
 # Константы для инициализации окна
-caption: str = 'Турбо-мяч'
+caption: str = 'Турбо-мяч v 1.0'
 screen_width: int = 800
 screen_height: int = 500
 
@@ -162,7 +162,7 @@ while running:
     # pygame.display.update(update_rectangle)
 
     # Ограничение FPS
-    pygame.time.Clock().tick(70)
+    pygame.time.Clock().tick(80)
 
 pygame.quit()
 sys.exit()
