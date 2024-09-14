@@ -1,12 +1,18 @@
 import pygame
 
+pygame.init()
+pygame.font.init()
+
+# Константы для инициализации окна
 caption: str = 'Турбо-мяч'
 screen_width: int = 800
 screen_height: int = 500
 
+# Размеры мячей
 target_width: int = 80
 target_height: int = 80
 
+# Загрузка изображений мячей и фона
 icon_image = pygame.image.load('images/fast_icon.png')
 ground_image = pygame.image.load('images/background.png')
 pri_target = pygame.image.load('images/primary_ball.png')
@@ -14,13 +20,13 @@ sec_target = pygame.image.load('images/secondary_ball.png')
 pri_active = pygame.image.load('images/pri_active.png')
 sec_active = pygame.image.load('images/sec_active.png')
 
+# Изменение размера мячей
 pri_target = pygame.transform.scale(pri_target, (target_width, target_height))
 sec_target = pygame.transform.scale(sec_target, (target_width, target_height))
 pri_active = pygame.transform.scale(pri_active, (target_width, target_height))
 sec_active = pygame.transform.scale(sec_active, (target_width, target_height))
 
-pygame.init()
-
+# Оформление главного окна
 pygame.display.set_caption(caption)
 pygame.display.set_icon(icon_image)
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -32,7 +38,7 @@ target_y: int = (screen_height - target_height) // 2
 # Скорости перемещения по осям и скорость вращения
 target_speed_x: int = 3
 target_speed_y: int = 3
-target_speed_r: int = 8
+target_speed_r: int = 6
 target_angle: int = 0
 
 # Переменные для переключения состояния мяча
@@ -47,7 +53,7 @@ activate_time: int = 0
 # Переменная для переключения вида мяча
 change_ball: int = 1
 
-# Показ фона
+# Установка фона окна
 screen.blit(ground_image, (0, 0))
 pygame.display.flip()
 
@@ -106,11 +112,13 @@ while running:
     else:
         screen.blit(sec_rotated, new_rectangle.topleft)
 
+    # font = pygame.font.Font(None, 36)
+
     # Обновление части экрана под мячом
     update_rectangle = pygame.Rect(target_x - 20, target_y - 20, target_width + 40, target_height + 40)
     pygame.display.update(update_rectangle)
 
     # Ограничение FPS
-    pygame.time.Clock().tick(40)
+    pygame.time.Clock().tick(60)
 
 pygame.quit()
