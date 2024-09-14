@@ -120,7 +120,7 @@ while running:
             events_enabled: bool = True
 
     # Отрисовка текста
-    font = pygame.font.Font('fonts/constan.ttf', 72)
+    font = pygame.font.Font('fonts/constan.ttf', 64)
     text = font.render(f'попал...{user_score}|{miss_scores}...пропустил', True, (255, 225, 255))  # белый текст
     text_rect = text.get_rect(center=(400, 250))
 
