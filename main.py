@@ -36,8 +36,8 @@ target_x: int = (screen_width - target_width) // 2
 target_y: int = (screen_height - target_height) // 2
 
 # Скорости перемещения по осям и скорость вращения
-target_speed_x: int = 3
-target_speed_y: int = 3
+target_speed_x: int = 4
+target_speed_y: int = 4
 target_speed_r: int = 6
 target_angle: int = 0
 
@@ -54,7 +54,7 @@ activate_time: int = 0
 change_ball: int = 1
 
 # Установка фона окна
-screen.blit(ground_image, (0, 0))
+# screen.blit(ground_image, (0, 0))
 pygame.display.flip()
 
 # Основной цикл
@@ -101,6 +101,13 @@ while running:
         change_ball *= -1
         target_speed_y: int = -target_speed_y
 
+    # Отрисовка текста
+    font = pygame.font.Font('fonts/constan.ttf', 72)
+    text = font.render('попал...23|12...мимо', True, (255, 225, 255))  # белый текст
+    text_rect = text.get_rect(center=(400, 250))
+
+    screen.blit(text, text_rect)
+
     # Отрисовка мяча
     pri_rotated = pygame.transform.rotate(pri_image, target_angle)
     sec_rotated = pygame.transform.rotate(sec_image, target_angle)
@@ -112,11 +119,11 @@ while running:
     else:
         screen.blit(sec_rotated, new_rectangle.topleft)
 
-    # font = pygame.font.Font(None, 36)
+    pygame.display.flip()
 
     # Обновление части экрана под мячом
-    update_rectangle = pygame.Rect(target_x - 20, target_y - 20, target_width + 40, target_height + 40)
-    pygame.display.update(update_rectangle)
+    # update_rectangle = pygame.Rect(target_x - 20, target_y - 20, target_width + 40, target_height + 40)
+    #pygame.display.update(update_rectangle)
 
     # Ограничение FPS
     pygame.time.Clock().tick(60)
