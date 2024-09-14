@@ -53,6 +53,8 @@ while running:
     # Изменение положения мяча
     target_x += target_speed_x
     target_y += target_speed_y
+    # Изменение угла вращения
+    target_angle = (target_angle + target_speed_r) % 360
 
     # Переменные для проверки смены направления движения
     prev_speed_x = target_speed_x
@@ -69,51 +71,20 @@ while running:
     else:
         switch_ball = False
 
-
-
-
-
-
-
-
-
-
-    # Обновление угла вращения
-    angle = (angle + rotation_speed) % 360
-
-    # Проверка столкновения с краями окна и изменение направления
-    if target_x <= 0 or target_x + target_width >= screen_width:
-        target_speed_x = -target_speed_x
-    if target_y <= 0 or target_y + target_height >= screen_height:
-        target_speed_y = -target_speed_y
-
     # Отрисовка мяча
-    if target_speed_x > 0 and target_speed_y > 0:
-        screen.blit(pri_target, (target_x, target_y))
-    if target_speed_x < 0 and target_speed_y < 0:
-        rotated_sec = pygame.transform.rotate(sec_target, angle)
-        new_rect = rotated_sec.get_rect(center=(target_x + target_width // 2, target_y + target_height // 2))
-        screen.blit(rotated_sec, new_rect.topleft)
+    new_rectangle = pri_rotated.get_rect(center=(target_x + target_width // 2, target_y + target_height // 2))
 
-    if target_speed_x > 0 and target_speed_y > 0:
-        screen.blit(pri_target, (target_x, target_y))
-
-    elif target_speed_x > 0 or target_speed_y < 0:
-        screen.blit(pri_target, (target_x, target_y))
-
-    elif target_speed_x < 0 and target_speed_y > 0:
-        rotated_sec = pygame.transform.rotate(sec_target, angle)
-        new_rect = rotated_sec.get_rect(center=(target_x + target_width // 2, target_y + target_height // 2))
-        screen.blit(rotated_sec, new_rect.topleft)
+    if switch_ball:
+        pri_rotated = pygame.transform.rotate(pri_target, target_angle)
+        screen.blit(pri_rotated, new_rectangle.topleft)
 
     else:
-        rotated_sec = pygame.transform.rotate(sec_target, angle)
-        new_rect = rotated_sec.get_rect(center=(target_x + target_width // 2, target_y + target_height // 2))
-        screen.blit(rotated_sec, new_rect.topleft)
+        sec_rotated = pygame.transform.rotate(sec_target, target_angle)
+        screen.blit(sec_rotated, new_rectangle.topleft)
 
     # Обновление части экрана
-    rect = pygame.Rect(target_x - 10, target_y - 10, target_width + 20, target_height + 20)
-    pygame.display.update(rect)
+    update_rectangle = pygame.Rect(target_x - 10, target_y - 10, target_width + 20, target_height + 20)
+    pygame.display.update(update_rectangle)
 
     # Ограничение FPS
     pygame.time.Clock().tick(60)
