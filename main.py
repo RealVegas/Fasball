@@ -33,7 +33,7 @@ target_y = (screen_height - target_height) // 2
 # Скорости перемещения по осям и скорость вращения
 target_speed_x = 3
 target_speed_y = 3
-target_speed_r = 6
+target_speed_r = 8
 target_angle = 0
 
 # Показ фона
@@ -52,22 +52,17 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    # Изменение положения мяча
     target_x += target_speed_x
     target_y += target_speed_y
 
-    # Переменные для проверки смены направления движения
-    prev_speed_x = target_speed_x
-    prev_speed_y = target_speed_y
-
     # Изменение угла вращения
     target_angle = (target_angle + target_speed_r) % 360
-
 
     # Проверка столкновения с краями окна и изменение направления
     if target_x <= 0 or target_x + target_width >= screen_width:
         target_speed_x = -target_speed_x
         switch_ball *= -1
-
 
     if target_y <= 0 or target_y + target_height >= screen_height:
         target_speed_y = -target_speed_y
