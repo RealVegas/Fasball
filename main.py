@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 pygame.init()
 pygame.font.init()
@@ -62,6 +63,10 @@ events_enabled: bool = True
 # Основной цикл
 running = True
 
+# Переменные для режима паузы
+save_speed_x: int = 0
+save_speed_y: int = 0
+
 clock = pygame.time.Clock()
 while running:
 
@@ -72,6 +77,18 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        # Нажатие на клавишу "P"
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_p:
+                if save_speed_x == 0 and save_speed_y == 0:
+                    save_speed_x, save_speed_y = target_speed_x, target_speed_y
+                    target_speed_x, target_speed_y = 0, 0
+
+                elif save_speed_x != 0 and save_speed_y != 0:
+                    target_speed_x, target_speed_y = save_speed_x, save_speed_y
+                    save_speed_x, save_speed_y = 0, 0
+
+        # Нажатие на левую кнопу мыши
         if event.type == pygame.MOUSEBUTTONDOWN:
             if target_speed_x == 0 and target_speed_y == 0:
                 target_speed_x: int = 4
@@ -145,6 +162,7 @@ while running:
     # pygame.display.update(update_rectangle)
 
     # Ограничение FPS
-    pygame.time.Clock().tick(30)
+    pygame.time.Clock().tick(70)
 
 pygame.quit()
+sys.exit()
