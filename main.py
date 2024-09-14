@@ -53,10 +53,11 @@ activate_time: int = 0
 # Переменная для переключения вида мяча
 change_ball: int = 1
 
-# Перменные для посчета очков
+# Переменные для подсчета очков
 user_score: int = 0
 miss_scores: int = 0
-miss_count: bool = False
+# Переменная для контроля событий при подсчете очков
+events_enabled: bool = True
 
 # Основной цикл
 running = True
@@ -65,7 +66,8 @@ clock = pygame.time.Clock()
 while running:
 
     screen.blit(ground_image, (0, 0))
-    miss_count: bool = False
+    user_count: bool = False
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -77,14 +79,13 @@ while running:
             y_bound: int = target_y + target_height
 
             if target_x < mouse_x < x_bound and target_y < mouse_y < y_bound:
-                user_score += 1
+                if events_enabled:
+                    user_score += 1
+                    events_enabled: bool = False
                 activate_image: bool = True
                 activate_time: int = pygame.time.get_ticks()
                 pri_image = pri_active
                 sec_image = sec_active
-            else:
-                miss_scores += 1
-                miss_count: bool = True
 
 
     if activate_image and (pygame.time.get_ticks() - activate_time >= 250):
@@ -103,14 +104,20 @@ while running:
     if target_x <= 0 or target_x + target_width >= screen_width:
         change_ball *= -1
         target_speed_x: int = -target_speed_x
-        if not miss_count:
+        if events_enabled:
             miss_scores += 1
+        else:
+            events_enabled: bool = True
+
 
     if target_y <= 0 or target_y + target_height >= screen_height:
         change_ball *= -1
         target_speed_y: int = -target_speed_y
-        if not miss_count:
+        if events_enabled:
             miss_scores += 1
+        else:
+            events_enabled: bool = True
+
 
     # Отрисовка текста
     font = pygame.font.Font('fonts/constan.ttf', 72)
@@ -138,6 +145,6 @@ while running:
     # pygame.display.update(update_rectangle)
 
     # Ограничение FPS
-    pygame.time.Clock().tick(70)
+    pygame.time.Clock().tick(30)
 
 pygame.quit()
