@@ -68,7 +68,6 @@ while running:
     screen.blit(ground_image, (0, 0))
     user_count: bool = False
 
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -86,7 +85,6 @@ while running:
                 activate_time: int = pygame.time.get_ticks()
                 pri_image = pri_active
                 sec_image = sec_active
-
 
     if activate_image and (pygame.time.get_ticks() - activate_time >= 250):
         activate_image: bool = False
@@ -109,7 +107,6 @@ while running:
         else:
             events_enabled: bool = True
 
-
     if target_y <= 0 or target_y + target_height >= screen_height:
         change_ball *= -1
         target_speed_y: int = -target_speed_y
@@ -117,7 +114,6 @@ while running:
             miss_scores += 1
         else:
             events_enabled: bool = True
-
 
     # Отрисовка текста
     font = pygame.font.Font('fonts/constan.ttf', 72)
