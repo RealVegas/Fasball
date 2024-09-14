@@ -53,9 +53,10 @@ activate_time: int = 0
 # Переменная для переключения вида мяча
 change_ball: int = 1
 
-# Установка фона окна
-# screen.blit(ground_image, (0, 0))
-pygame.display.flip()
+# Перменные для посчета очков
+user_score: int = 0
+miss_scores: int = 0
+miss_count: bool = False
 
 # Основной цикл
 running = True
@@ -64,6 +65,7 @@ clock = pygame.time.Clock()
 while running:
 
     screen.blit(ground_image, (0, 0))
+    miss_count: bool = False
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -75,10 +77,15 @@ while running:
             y_bound: int = target_y + target_height
 
             if target_x < mouse_x < x_bound and target_y < mouse_y < y_bound:
+                user_score += 1
                 activate_image: bool = True
                 activate_time: int = pygame.time.get_ticks()
                 pri_image = pri_active
                 sec_image = sec_active
+            else:
+                miss_scores += 1
+                miss_count: bool = True
+
 
     if activate_image and (pygame.time.get_ticks() - activate_time >= 250):
         activate_image: bool = False
@@ -96,14 +103,18 @@ while running:
     if target_x <= 0 or target_x + target_width >= screen_width:
         change_ball *= -1
         target_speed_x: int = -target_speed_x
+        if not miss_count:
+            miss_scores += 1
 
     if target_y <= 0 or target_y + target_height >= screen_height:
         change_ball *= -1
         target_speed_y: int = -target_speed_y
+        if not miss_count:
+            miss_scores += 1
 
     # Отрисовка текста
     font = pygame.font.Font('fonts/constan.ttf', 72)
-    text = font.render('попал...23|12...мимо', True, (255, 225, 255))  # белый текст
+    text = font.render(f'попал...{user_score}|{miss_scores}...мимо', True, (255, 225, 255))  # белый текст
     text_rect = text.get_rect(center=(400, 250))
 
     screen.blit(text, text_rect)
@@ -122,10 +133,11 @@ while running:
     pygame.display.flip()
 
     # Обновление части экрана под мячом
+    # Из-за текста пришлось отказаться от этого метода
     # update_rectangle = pygame.Rect(target_x - 20, target_y - 20, target_width + 40, target_height + 40)
-    #pygame.display.update(update_rectangle)
+    # pygame.display.update(update_rectangle)
 
     # Ограничение FPS
-    pygame.time.Clock().tick(60)
+    pygame.time.Clock().tick(70)
 
 pygame.quit()
