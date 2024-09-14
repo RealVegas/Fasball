@@ -36,8 +36,8 @@ target_x: int = (screen_width - target_width) // 2
 target_y: int = (screen_height - target_height) // 2
 
 # Скорости перемещения по осям и скорость вращения
-target_speed_x: int = 4
-target_speed_y: int = 4
+target_speed_x: int = 0
+target_speed_y: int = 0
 target_speed_r: int = 6
 target_angle: int = 0
 
@@ -73,6 +73,10 @@ while running:
             running = False
 
         if event.type == pygame.MOUSEBUTTONDOWN:
+            if target_speed_x == 0 and target_speed_y == 0:
+                target_speed_x: int = 4
+                target_speed_y: int = 4
+
             mouse_x, mouse_y = pygame.mouse.get_pos()
             x_bound: int = target_x + target_width
             y_bound: int = target_y + target_height
@@ -117,7 +121,7 @@ while running:
 
     # Отрисовка текста
     font = pygame.font.Font('fonts/constan.ttf', 72)
-    text = font.render(f'попал...{user_score}|{miss_scores}...мимо', True, (255, 225, 255))  # белый текст
+    text = font.render(f'попал...{user_score}|{miss_scores}...пропустил', True, (255, 225, 255))  # белый текст
     text_rect = text.get_rect(center=(400, 250))
 
     screen.blit(text, text_rect)
