@@ -1,5 +1,4 @@
 import pygame
-from random import randint
 
 caption = 'Турбо-мяч'
 screen_width = 800
@@ -42,25 +41,43 @@ pygame.display.flip()
 
 # Основной цикл
 running = True
+
+active_time = None
+
+pri_image = pri_target
+pri_rect = pri_image.get_rect()
+sec_image = sec_target
+sec_rect = pri_image.get_rect()
+active_image = False
+
 switch_ball = 1
+
+clock = pygame.time.Clock()
 
 while running:
 
     screen.blit(ground_image, (0, 0))
+    target_activate = False
+    activate_time = None
 
-    # for event in pygame.event.get():
-    #     if event.type == pygame.QUIT:
-    #         running = False
-    #     if event.type == pygame.MOUSEBUTTONDOWN:
-    #         x_bound = target_x + target_width
-    #         y_bound = target_y + target_height
-    #         mouse_x, mouse_y = pygame.mouse.get_pos()
-    #         if target_x < mouse_x < x_bound and target_y < mouse_y < y_bound:
-    #             screen.blit(pri_active, target_x, target_y)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x_bound = target_x + target_width
+            y_bound = target_y + target_height
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if target_x < mouse_x < x_bound and target_y < mouse_y < y_bound:
+                active_image = True
+                pri_image = pri_active
+                active_time = pygame.time.get_ticks()
+                print('Попал')
+            else:
+                print('Промах')
 
-    #     if target_x < mouse_x < target_x + target_width and target_y < mouse_y < target_y + target_height:
-    #         target_x = randint(0, screen_width - target_width)
-    #         target_y = randint(0, screen_height - target_height)
+    if active_image and (pygame.time.get_ticks() - active_time >= 250):
+        active_image = False
+        pri_image = pri_target
 
     # Изменение положения мяча
     target_x += target_speed_x
@@ -80,7 +97,7 @@ while running:
 
     # Отрисовка мяча
     if switch_ball == 1:
-        pri_rotated = pygame.transform.rotate(pri_target, target_angle)
+        pri_rotated = pygame.transform.rotate(pri_image, target_angle)
         pri_act_rotated = pygame.transform.rotate(pri_active, target_angle)
         new_rectangle = pri_rotated.get_rect(center=(target_x + target_width // 2, target_y + target_height // 2))
         screen.blit(pri_rotated, new_rectangle.topleft)
@@ -92,20 +109,8 @@ while running:
         screen.blit(sec_rotated, new_rectangle.topleft)
 
     # Обновление части экрана под мячом
-    update_rectangle = pygame.Rect(target_x - 10, target_y - 10, target_width + 20, target_height + 20)
+    update_rectangle = pygame.Rect(target_x - 20, target_y - 20, target_width + 40, target_height + 40)
     pygame.display.update(update_rectangle)
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            x_bound = target_x + target_width
-            y_bound = target_y + target_height
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            if target_x < mouse_x < x_bound and target_y < mouse_y < y_bound:
-                print('Попал')
-            else:
-                print('Промах')
 
     # Ограничение FPS
     pygame.time.Clock().tick(30)
