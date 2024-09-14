@@ -103,7 +103,9 @@ while running:
             y_bound = target_y + target_height
             mouse_x, mouse_y = pygame.mouse.get_pos()
             if target_x < mouse_x < x_bound and target_y < mouse_y < y_bound:
-                screen.blit(pri_act_rotated, new_rectangle.topleft)
+                print('Попал')
+            else:
+                print('Промах')
 
     # Ограничение FPS
     pygame.time.Clock().tick(30)
