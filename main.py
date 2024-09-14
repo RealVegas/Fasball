@@ -48,9 +48,19 @@ while running:
 
     screen.blit(ground_image, (0, 0))
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    # for event in pygame.event.get():
+    #     if event.type == pygame.QUIT:
+    #         running = False
+    #     if event.type == pygame.MOUSEBUTTONDOWN:
+    #         x_bound = target_x + target_width
+    #         y_bound = target_y + target_height
+    #         mouse_x, mouse_y = pygame.mouse.get_pos()
+    #         if target_x < mouse_x < x_bound and target_y < mouse_y < y_bound:
+    #             screen.blit(pri_active, target_x, target_y)
+
+    #     if target_x < mouse_x < target_x + target_width and target_y < mouse_y < target_y + target_height:
+    #         target_x = randint(0, screen_width - target_width)
+    #         target_y = randint(0, screen_height - target_height)
 
     # Изменение положения мяча
     target_x += target_speed_x
@@ -71,11 +81,13 @@ while running:
     # Отрисовка мяча
     if switch_ball == 1:
         pri_rotated = pygame.transform.rotate(pri_target, target_angle)
+        pri_act_rotated = pygame.transform.rotate(pri_active, target_angle)
         new_rectangle = pri_rotated.get_rect(center=(target_x + target_width // 2, target_y + target_height // 2))
         screen.blit(pri_rotated, new_rectangle.topleft)
 
     else:
         sec_rotated = pygame.transform.rotate(sec_target, target_angle)
+        sec_act_rotated = pygame.transform.rotate(sec_active, target_angle)
         new_rectangle = sec_rotated.get_rect(center=(target_x + target_width // 2, target_y + target_height // 2))
         screen.blit(sec_rotated, new_rectangle.topleft)
 
@@ -83,13 +95,17 @@ while running:
     update_rectangle = pygame.Rect(target_x - 10, target_y - 10, target_width + 20, target_height + 20)
     pygame.display.update(update_rectangle)
 
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            x_bound = target_x + target_width
+            y_bound = target_y + target_height
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if target_x < mouse_x < x_bound and target_y < mouse_y < y_bound:
+                screen.blit(pri_act_rotated, new_rectangle.topleft)
+
     # Ограничение FPS
-    pygame.time.Clock().tick(60)
+    pygame.time.Clock().tick(30)
 
 pygame.quit()
-
-# if event.type == pygame.MOUSEBUTTONDOWN:
-#     mouse_x, mouse_y = pygame.mouse.get_pos()
-#     if target_x < mouse_x < target_x + target_width and target_y < mouse_y < target_y + target_height:
-#         target_x = randint(0, screen_width - target_width)
-#         target_y = randint(0, screen_height - target_height)
