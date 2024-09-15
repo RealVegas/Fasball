@@ -1,3 +1,4 @@
 @echo off
-call venv\Scripts\activate.bat
-main.py
+call %~dp0venv\Scripts\activate.bat
+cd %~dp0
+python main.pyw
