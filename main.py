@@ -66,6 +66,7 @@ running = True
 # Переменные для режима паузы
 save_speed_x: int = 0
 save_speed_y: int = 0
+save_speed_r: int = 0
 
 clock = pygame.time.Clock()
 while running:
@@ -81,11 +82,12 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_p:
                 if save_speed_x == 0 and save_speed_y == 0:
-                    save_speed_x, save_speed_y = target_speed_x, target_speed_y
+                    save_speed_x, save_speed_y, save_speed_r = target_speed_x, target_speed_y, target_speed_r
                     target_speed_x, target_speed_y = 0, 0
+                    target_speed_r = round(target_speed_r / 1.5)
 
                 elif save_speed_x != 0 and save_speed_y != 0:
-                    target_speed_x, target_speed_y = save_speed_x, save_speed_y
+                    target_speed_x, target_speed_y, target_speed_r = save_speed_x, save_speed_y, save_speed_r
                     save_speed_x, save_speed_y = 0, 0
 
         # Нажатие на левую кнопу мыши
@@ -93,6 +95,7 @@ while running:
             if target_speed_x == 0 and target_speed_y == 0:
                 target_speed_x: int = 4
                 target_speed_y: int = 4
+                target_speed_r: int = round(target_speed_x * 1.5)
 
             mouse_x, mouse_y = pygame.mouse.get_pos()
             x_bound: int = target_x + target_width
